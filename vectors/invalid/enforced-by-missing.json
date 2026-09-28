@@ -1,0 +1,15 @@
+{
+  "contract": "delegation/1",
+  "chain": [
+    {
+      "id": "grant/root-0001",
+      "issuer": "person/example-human",
+      "subject": "agent/example-org-settlement",
+      "scopes": ["rewards:redeem"],
+      "cap": 250000,
+      "expires": "2099-01-01T00:00:00Z",
+      "purpose": "settlement",
+      "signature": null
+    }
+  ]
+}

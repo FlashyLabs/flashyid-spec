@@ -1,0 +1,16 @@
+{
+  "contract": "delegation/1",
+  "chain": [
+    {
+      "id": "grant/root-0001",
+      "issuer": "agent/example-org-orchestrator",
+      "subject": "agent/example-org-settlement",
+      "scopes": ["rewards:redeem"],
+      "cap": 250000,
+      "expires": "2099-01-01T00:00:00Z",
+      "purpose": "settlement",
+      "enforcedBy": "https://rails.example/v1/redeem/execute",
+      "signature": null
+    }
+  ]
+}

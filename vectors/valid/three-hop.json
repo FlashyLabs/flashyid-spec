@@ -1,0 +1,38 @@
+{
+  "contract": "delegation/1",
+  "chain": [
+    {
+      "id": "grant/root-0001",
+      "issuer": "person/example-human",
+      "subject": "org/example-org",
+      "scopes": ["rewards:redeem", "rewards:transfer", "ledger:read"],
+      "cap": 1000000,
+      "expires": "2099-01-01T00:00:00Z",
+      "purpose": "settlement",
+      "enforcedBy": "https://rails.example/v1/redeem/execute",
+      "signature": null
+    },
+    {
+      "id": "grant/org-0002",
+      "issuer": "org/example-org",
+      "subject": "agent/example-org-settlement",
+      "scopes": ["rewards:redeem", "ledger:read"],
+      "cap": 250000,
+      "expires": "2098-06-30T00:00:00Z",
+      "purpose": "settlement/redeem",
+      "enforcedBy": "https://rails.example/v1/redeem/execute",
+      "signature": null
+    },
+    {
+      "id": "grant/session-0003",
+      "issuer": "agent/example-org-settlement",
+      "subject": "session/2fd4e1c67a2d28fced849ee1bb76e739",
+      "scopes": ["rewards:redeem"],
+      "cap": 5000,
+      "expires": "2098-06-29T12:00:00Z",
+      "purpose": "settlement/redeem/one-draft",
+      "enforcedBy": "https://rails.example/v1/redeem/execute",
+      "signature": null
+    }
+  ]
+}

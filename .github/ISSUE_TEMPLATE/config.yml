@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/FlashyLabs/flashyid-spec/blob/main/SECURITY.md
+    about: A weakness in the spec or the checker that could let a grant widen. Do not open a public issue; read SECURITY.md.

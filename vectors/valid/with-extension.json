@@ -1,0 +1,30 @@
+{
+  "contract": "delegation/1",
+  "x-note": "Top-level and per-grant x- keys are carried and signed but never interpreted by the checker.",
+  "chain": [
+    {
+      "id": "grant/root-7c3e",
+      "issuer": "org/example-org",
+      "subject": "agent/example-org-ci",
+      "scopes": ["release:publish"],
+      "cap": 0,
+      "expires": "2099-01-01T00:00:00Z",
+      "purpose": "release",
+      "enforcedBy": "https://registry.example/publish",
+      "signature": { "alg": "EdDSA", "value": "placeholder-not-a-real-signature", "kid": "example-kid" },
+      "x-issued-via": "example-console"
+    },
+    {
+      "id": "grant/leaf-7c3f",
+      "issuer": "agent/example-org-ci",
+      "subject": "session/0123456789abcdef0123456789abcdef",
+      "scopes": ["release:publish"],
+      "cap": 0,
+      "expires": "2098-12-31T00:00:00Z",
+      "purpose": "release/one-tag",
+      "enforcedBy": "https://registry.example/publish",
+      "signature": { "alg": "EdDSA", "value": "placeholder-not-a-real-signature", "kid": "example-kid" },
+      "x-tag": "v0.0.0-example"
+    }
+  ]
+}

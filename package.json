@@ -1,0 +1,14 @@
+{
+  "name": "@flashylabs/flashyid-spec",
+  "version": "0.1.0",
+  "private": true,
+  "description": "delegation/1 — the vendor-neutral spec, JSON Schema, vectors and dependency-free checker for cryptographically provable delegated authority for agents.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "lint": "node tools/lint.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
