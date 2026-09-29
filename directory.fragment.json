@@ -1,0 +1,80 @@
+{
+  "contract": "directory/1",
+  "generated": "2026-09-29",
+  "org": "org/flashyid-spec",
+  "nodes": [
+    {
+      "id": "org/flashyid-spec",
+      "kind": "org",
+      "name": "Flashyid Spec"
+    },
+    {
+      "id": "person/michael",
+      "kind": "person",
+      "name": "Michael Gord"
+    },
+    {
+      "id": "agent/flashyid-spec-canon",
+      "kind": "agent",
+      "name": "canon",
+      "for": "org/flashyid-spec"
+    },
+    {
+      "id": "agent/flashyid-spec-conformance",
+      "kind": "agent",
+      "name": "conformance",
+      "for": "org/flashyid-spec"
+    },
+    {
+      "id": "agent/flashyid-spec-release",
+      "kind": "agent",
+      "name": "release",
+      "for": "org/flashyid-spec"
+    },
+    {
+      "id": "agent/flashyid-spec-adoption",
+      "kind": "agent",
+      "name": "adoption",
+      "for": "org/flashyid-spec"
+    },
+    {
+      "id": "agent/flashyid-spec-review",
+      "kind": "agent",
+      "name": "review",
+      "for": "org/flashyid-spec"
+    }
+  ],
+  "edges": [
+    {
+      "from": "org/flashyid-spec",
+      "rel": "staffs",
+      "to": "agent/flashyid-spec-canon",
+      "by": "person/michael"
+    },
+    {
+      "from": "org/flashyid-spec",
+      "rel": "staffs",
+      "to": "agent/flashyid-spec-conformance",
+      "by": "person/michael"
+    },
+    {
+      "from": "org/flashyid-spec",
+      "rel": "staffs",
+      "to": "agent/flashyid-spec-release",
+      "by": "person/michael"
+    },
+    {
+      "from": "org/flashyid-spec",
+      "rel": "staffs",
+      "to": "agent/flashyid-spec-adoption",
+      "by": "person/michael"
+    },
+    {
+      "from": "org/flashyid-spec",
+      "rel": "staffs",
+      "to": "agent/flashyid-spec-review",
+      "by": "person/michael"
+    }
+  ],
+  "x-note": "Five agents, one per charter role. Generated from flashyos.roles.json; a live org is provisioned from the charter with provision-org-from-charter."
+}
