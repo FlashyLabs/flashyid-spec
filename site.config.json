@@ -1,0 +1,62 @@
+{
+  "property": "flashyid-spec",
+  "domain": null,
+  "title": "delegation/1 — provable delegated authority for agents",
+  "pitch": "delegation/1 is the vendor-neutral specification for cryptographically provable delegated authority for agents — a chain that runs human, organisation, agent, sub-agent, session and can never grow on the way down.",
+  "layer": "identity",
+  "contract": "delegation/1",
+  "accent": "--flashy-mint",
+  "refusals": [
+    {
+      "title": "Attenuation only",
+      "body": "A child grant may carry a subset of its parent's scopes, a cap no higher, an expiry no later and the same or a narrower purpose. Any widening is refused with a named reason — never clamped, never averaged. An agent can act on a person's authority and can never exceed it."
+    },
+    {
+      "title": "Enforcement before minting",
+      "body": "Every grant names, in enforcedBy, the https endpoint that checks it before anything acts on it. A grant with no checker is refused. Authority that nothing checks is theatre."
+    },
+    {
+      "title": "Bind subject to holder",
+      "body": "A verifier walks the chain: each grant's issuer is the holder of the grant above, the root is a person or an organisation and never a machine, and the principal acting must be the leaf's subject. A valid signature over somebody else's chain authorises nothing."
+    },
+    {
+      "title": "Every grant expires and is revocable",
+      "body": "There is no perpetual grant. Expiry is required, revocation is immediate and walks down the chain, and caps are integer minor units rather than floats. A grant a holder cannot withdraw is a key they can never take back."
+    },
+    {
+      "title": "The checker refuses; it does not guess",
+      "body": "Unknown keys are refused unless x- prefixed — including every spelling of expiry but expires. A float cap is refused, and the raw bytes are read first because 2500.0 parses to 2500. The checker does not verify signatures and says so, so a structural pass is never mistaken for a cryptographic one."
+    }
+  ],
+  "faq": [
+    {
+      "q": "What does the checker refuse?",
+      "a": "Any widening of scope, cap, expiry or purpose down the chain; a root that is an agent rather than a person or org; a grant with no enforcedBy https endpoint; a float or negative cap; a zoneless timestamp; and unknown keys that are not x- prefixed. It names the refusal rather than clamping the value."
+    },
+    {
+      "q": "Where does this sit in Web 4?",
+      "a": "The identity layer — 'who are you?', and more precisely, 'on whose authority do you act?'. A delegation/1 root is typically the accountable human or organisation of an aao/0.1 charter. The stack page and the Web 4 hub show where it sits among the nine layers."
+    },
+    {
+      "q": "Is this a standard yet?",
+      "a": "No. delegation/1 is draft. It has no independent adopter yet, and the first independent adopter is the gate before it is called a standard."
+    },
+    {
+      "q": "Does the checker verify signatures?",
+      "a": "No, and it says so. delegation/1 fixes what is signed — the canonical JSON of the grant without its signature — but mandates no algorithm and no key distribution; those are the implementation's. The CLI prints 'structural check only', so a structural pass is never read as a cryptographic one."
+    },
+    {
+      "q": "Can a child ever hold more than its parent?",
+      "a": "No, by construction. Delegation is attenuation, never inheritance: a child carries a subset of the parent's scopes, a cap no higher, an expiry no later and the same or a narrower purpose. A change that let a grant exceed its parent would be wrong regardless of its other merits."
+    },
+    {
+      "q": "What is the reference implementation?",
+      "a": "FlashyLabs/flashyid — the OIDC provider and the @flashyid/sdk grant kernel this spec is seeded from. This repository is the specification, schema, vectors and a dependency-free checker."
+    }
+  ],
+  "links": {
+    "hub": "https://github.com/FlashyLabs/web4",
+    "spec": "https://github.com/FlashyLabs/flashyid-spec",
+    "repo": "https://github.com/FlashyLabs/flashyid-spec"
+  }
+}

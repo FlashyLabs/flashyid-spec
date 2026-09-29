@@ -1,0 +1,14 @@
+{
+  "mesh": "flashyos/1",
+  "org": {
+    "slug": "flashyid-spec",
+    "name": "Flashyid Spec",
+    "profile": "https://app.flashyos.com/org/flashyid-spec"
+  },
+  "capabilities": [
+    "content-exchange"
+  ],
+  "wants": "https://api.flashyos.com/api/v1/network/roadmap",
+  "api": "https://api.flashyos.com",
+  "join": "https://flashyos.com/join"
+}
