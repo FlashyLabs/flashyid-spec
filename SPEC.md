@@ -140,6 +140,34 @@ each maps to a named refusal below.
    signature is made by its `issuer` — which, by rule 3, is the holder of the
    grant above.
 
+## Known divergence from `@flashyid/sdk` (intentional)
+
+There is exactly one place where this wire contract and the reference SDK
+behave differently on the same input, and it is **deliberate and known**:
+
+> **A child grant whose `expires` is later than its parent's.**
+> The wire spec **refuses** it, with the refusal code `expiry_later_than_parent`
+> at `chain[i].expires`. `@flashyid/sdk`'s `attenuate` instead **clamps** the
+> child expiry down to the parent's at construction (a convenience, so a caller
+> that asks for too long a life silently gets a legal one), and its
+> `verifyChain` folds the minimum across the chain.
+
+Both are correct for what they are. The SDK is a constructor a trusted caller
+drives, so clamping is a helpful narrowing that can never widen authority. A
+wire format is read by parties that did not build the document and cannot see
+the caller's intent: a grant that *says* it lives until T while the effective
+authority is some earlier T′ is a document that means something other than what
+it states, which is exactly what a wire format must not carry. So on the wire
+the contract refuses rather than silently rewrites, and the refusal is named so
+an auditor can see *why*.
+
+This is a documented difference, not a bug on either side; the spec's refuse
+stance is the one that governs `delegation/1` documents. `scope`, `cap` and
+`purpose` do **not** diverge — the SDK refuses a widened scope, cap or purpose
+at construction, matching the wire. `test/delegation.test.mjs` pins the
+checker's refuse-with-`expiry_later_than_parent` behaviour so this side cannot
+drift to clamping without a failing test.
+
 ## Refusals
 
 The checker refuses with exactly these codes. A relying party may branch on

@@ -537,10 +537,13 @@ describe('documentation', () => {
     assert.equal(spawnSync(process.execPath, [CHECKER, 'check', m[1]], { cwd: ROOT }).status, 0);
   });
 
-  test('the README ends with the licence line and no LICENSE file exists', () => {
+  test('the README ends with the Apache-2.0 licence line and the LICENSE is present', () => {
     const last = readme.trimEnd().split('\n').pop();
-    assert.equal(last, 'Licence: to be declared at launch. The estate licence register in flashyos governs; this repository is not yet open-sourced.');
-    assert.ok(!readdirSync(ROOT).some((f) => /^LICENSE/i.test(f)));
+    assert.equal(last, 'Licensed under Apache-2.0 (holder Flashy Labs); the estate register in flashyos `tools/estate-licences.mjs` is the authority.');
+    assert.ok(readdirSync(ROOT).some((f) => /^LICENSE/i.test(f)), 'a LICENSE file must exist');
+    const licence = readFileSync(join(ROOT, 'LICENSE'), 'utf8');
+    assert.ok(licence.includes('Apache License'), 'the LICENSE must be the Apache License');
+    assert.ok(licence.includes('Copyright 2026 Flashy Labs'), 'the LICENSE must name the holder Flashy Labs');
   });
 
   test('both documents carry the draft status and the contract name', () => {
@@ -555,5 +558,35 @@ describe('documentation', () => {
 
   test('every grant field is in the SPEC field-rules table', () => {
     for (const key of GRANT_KEYS) assert.ok(new RegExp(`^\\| \`${key}\``, 'm').test(spec), `SPEC.md has a row for ${key}`);
+  });
+});
+
+// ── Known, intentional divergence from @flashyid/sdk ───────────────────────
+// The wire spec REFUSES a child grant with a later expiry than its parent;
+// @flashyid/sdk's `attenuate` CLAMPS it down instead. That difference is
+// deliberate (a constructor may narrow silently; a wire format a stranger reads
+// must not say one thing and mean another). This block pins the SPEC side —
+// refuse, with the specific code — so it cannot drift to clamping unnoticed.
+// It does NOT change the checker; it holds the checker to its documented stance.
+describe('spec ↔ SDK divergence: a later child expiry is refused, never clamped', () => {
+  test('a later child expiry refuses with exactly expiry_later_than_parent', () => {
+    const doc = chain();
+    doc.chain[1].expires = '2099-01-01T00:00:01Z'; // one second past the root's
+    const r = verifyChain(doc, { now: NOW });
+    assert.equal(r.valid, false, 'a later child expiry must not verify (the SDK would clamp; the wire refuses)');
+    assert.deepEqual(codes(r), ['expiry_later_than_parent']);
+    // The clamp the SDK performs would have silently changed the value; the
+    // wire checker leaves the document untouched and reports why.
+    assert.equal(doc.chain[1].expires, '2099-01-01T00:00:01Z', 'the checker must not rewrite the grant');
+  });
+
+  test('expiry_later_than_parent is an exported refusal the checker can emit', () => {
+    assert.ok(REFUSALS.includes('expiry_later_than_parent'), 'the divergence refusal must be a real, exported code');
+  });
+
+  test('SPEC.md marks this as a known, intentional divergence', () => {
+    const spec = readFileSync(join(ROOT, 'SPEC.md'), 'utf8');
+    assert.match(spec, /Known divergence from `@flashyid\/sdk`/, 'SPEC.md must carry the Known divergence section');
+    assert.ok(spec.includes('`expiry_later_than_parent`'), 'the section must name the refusal code');
   });
 });

@@ -14,6 +14,15 @@ a narrower purpose; the root is a person or an org, never an agent; each hop's
 issuer is the holder above. A change that lets any grant carry more than its
 parent is wrong regardless of its other merits, and is refused at review.
 
+**Known, intentional divergence from `@flashyid/sdk` — the child-expiry rule.**
+The wire spec **refuses** a child grant whose `expires` is later than its
+parent's (`expiry_later_than_parent`); the SDK's `attenuate` **clamps** it down
+instead. This is deliberate: a constructor may narrow silently, a wire format a
+stranger reads must not say one thing and mean another, so on the wire it
+refuses. `scope`, `cap` and `purpose` do not diverge. Do not change the
+checker's refuse stance to clamp — it is pinned by a test in
+`test/delegation.test.mjs` and documented in SPEC.md under *Known divergence*.
+
 **Nothing is installed, ever.** `node:` builtins only, Node 22, ESM. CI has no
 install step. A check that needs an install is a check that can quietly not
 run.
@@ -46,7 +55,8 @@ node vendor-delegation.mjs check vectors/valid/three-hop.json
 - Every refusal code the checker exports appears in SPEC.md's Refusals table,
   and every grant field has a row in the field-rules table.
 - The README quick start command is run and must exit 0; the README's last
-  line is the licence line; no LICENSE file exists.
+  line is the Apache-2.0 licence line; a LICENSE file exists and carries the
+  Apache License with `Copyright 2026 Flashy Labs`.
 - The CLI exits 0 on a valid chain, 1 on refusal, 2 on usage or an unreadable
   file — never 0 for anything but a verified chain.
 
@@ -55,7 +65,7 @@ Spec-first order for any change: SPEC.md → schema → checker → vectors → 
 
 ## Don't
 
-- Add a dependency, a build step, or a `LICENSE` file.
+- Add a dependency or a build step.
 - Add a field without a row in SPEC.md, a schema property, a check, a vector
   and a test — in that order.
 - Let the checker "verify" a signature. It cannot, and claiming to would be the
@@ -74,7 +84,7 @@ Spec-first order for any change: SPEC.md → schema → checker → vectors → 
 
 **No secret in a file, a repo, or an artifact.** Secret Manager only.
 
-**The licence is declared once**, in `tools/estate-licences.mjs` in flashyos. Do not decide this repository's licence inside it.
+**The licence is declared once**, in `tools/estate-licences.mjs` in flashyos, which names this repository Apache-2.0 (holder Flashy Labs); the committed `LICENSE` is that grant. Do not decide this repository's licence inside it.
 
 **A generated file is regenerated, never hand-edited.**
 

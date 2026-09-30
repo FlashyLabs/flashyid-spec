@@ -2,7 +2,7 @@
 // two house rules a test would be too late for (no dependencies; the README's
 // last line is the licence line). Exits 1 on the first class of failure found.
 
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -42,10 +42,17 @@ for (const key of ['dependencies', 'devDependencies', 'peerDependencies', 'optio
 }
 
 const LICENCE_LINE =
-  'Licence: to be declared at launch. The estate licence register in flashyos governs; this repository is not yet open-sourced.';
+  'Licensed under Apache-2.0 (holder Flashy Labs); the estate register in flashyos `tools/estate-licences.mjs` is the authority.';
 const readme = readFileSync(join(ROOT, 'README.md'), 'utf8').trimEnd().split('\n');
 if (readme[readme.length - 1] !== LICENCE_LINE) failures.push('README.md: the final line must be the licence line');
-if (files.some((p) => /\/LICENSE(\.[a-z]+)?$/i.test(p))) failures.push('a LICENSE file exists; the licence is declared in flashyos, not here');
+const licensePath = join(ROOT, 'LICENSE');
+if (!existsSync(licensePath)) {
+  failures.push('LICENSE is missing; this repository is Apache-2.0 (holder Flashy Labs) per the flashyos register');
+} else {
+  const licence = readFileSync(licensePath, 'utf8');
+  if (!licence.includes('Apache License')) failures.push('LICENSE is not the Apache License');
+  if (!licence.includes('Copyright 2026 Flashy Labs')) failures.push('LICENSE does not name the copyright holder Flashy Labs');
+}
 
 if (failures.length) {
   for (const f of failures) process.stderr.write(`lint: ${f}\n`);

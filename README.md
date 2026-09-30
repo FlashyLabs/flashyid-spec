@@ -90,4 +90,4 @@ as of 2026-09-29, not yet fetched).
 
 Status: draft. No independent adopter yet; the first is the gate before this is called a standard.
 
-Licence: to be declared at launch. The estate licence register in flashyos governs; this repository is not yet open-sourced.
+Licensed under Apache-2.0 (holder Flashy Labs); the estate register in flashyos `tools/estate-licences.mjs` is the authority.
