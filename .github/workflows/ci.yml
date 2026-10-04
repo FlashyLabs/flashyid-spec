@@ -7,12 +7,17 @@ on:
 jobs:
   check:
     name: Lint and test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['22', '24']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node }}
       # No install step, deliberately: this repository declares no dependency,
       # and a check that needs an install is a check that can quietly not run.
       - run: npm run lint
